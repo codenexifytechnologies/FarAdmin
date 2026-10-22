@@ -1,0 +1,153 @@
+﻿@model AssetsManagement_Admin.Areas.SuperAdmin.Data.User
+@{
+    ViewBag.Title = "EditManageUser";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var toastSuccess = document.getElementById('solid-successToast');
+    var toastDanger  = document.getElementById('solid-dangerToast');
+    var toastInfo    = document.getElementById('solid-infoToast');
+
+    @* SUCCESS *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <text>
+            if (toastSuccess) {
+                new bootstrap.Toast(toastSuccess).show();
+            }
+        </text>
+    }
+
+    @* ERROR *@
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <text>
+            if (toastDanger) {
+                new bootstrap.Toast(toastDanger).show();
+            }
+        </text>
+    }
+
+    @* INFO *@
+    @if (TempData["InfoMessage"] != null)
+    {
+        <text>
+            if (toastInfo) {
+                new bootstrap.Toast(toastInfo).show();
+            }
+        </text>
+    }
+
+});
+</script>
+
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="solid-successToast" class="toast colored-toast bg-success text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-success text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Fabulous Workplace</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["SuccessMessage"]
+        </div>
+    </div>
+    <div id="solid-dangerToast" class="toast colored-toast bg-danger text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-danger text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Fabulous Workplace</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["ErrorMessage"]
+        </div>
+    </div>
+    <div id="solid-infoToast" class="toast colored-toast bg-info text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-info text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Fabulous Workplace</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["InfoMessage"]
+        </div>
+    </div>
+</div>
+
+
+<div class="row row-sm">
+    <div class="col-lg-12">
+        <div class="card">
+            @using (Html.BeginForm("EditManageUser", "UserManagement", new { area = "SuperAdmin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "max-width-auto", @id = "RegisterUser" }))
+            {
+                <div class="card-body">
+                    <div class="mb-4 main-content-label">User Information</div>
+                    <div class="form-horizontal">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">User Name *</label>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    @Html.HiddenFor(m => m.userId)
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "User Name", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Email *</label>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Mobile No *</label>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    @Html.TextBoxFor(m => m.mobileNo, new { @MinLength = 10, @MaxLength = 10, @class = "form-control", @placeholder = "Mobile No", autocomplete = "off" })
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Profile Image *</label>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.HiddenFor(model => model.Image)
+                                    <img src="@Model.Image">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    @Html.TextBoxFor(model => model.ProfileImage, new { type = "file", @class = "form-control form-control-lg", @accept = "image/jpg, image/jpeg, image/png" })
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Update User</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

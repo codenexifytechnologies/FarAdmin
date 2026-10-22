@@ -1,0 +1,260 @@
+﻿@model AssetsManagement_Admin.Areas.SuperAdmin.Data.AssetData
+@{
+    ViewBag.Title = "AssetListById";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateAsset", "Asset", FormMethod.Post))
+{
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>
+                ASSET NUMBER
+            </label>
+            @Html.TextBoxFor(m => m.ASSET_NUMBER, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                ASSET CLASS
+            </label>
+            @Html.TextBoxFor(m => m.ASSET_CLASS, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                BAL SH ACCT APC
+            </label>
+            @Html.TextBoxFor(m => m.BAL_SH_ACCT_APC, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                ASSET DESCRIPTION
+            </label>
+            @Html.TextBoxFor(m => m.ASSET_DESCRIPTION, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                ASSET NUMBER
+            </label>
+            @Html.TextBoxFor(m => m.ASSET_NUMBER, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                CAPITALIZED ON
+            </label>
+            @Html.TextBoxFor(m => m.CAPITALIZED_ON, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                CURRENT APC
+
+            </label>
+            @Html.TextBoxFor(m => m.CURRENT_APC, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                CURR BK VAL
+
+            </label>
+            @Html.TextBoxFor(m => m.CURR_BK_VAL, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                DEACTIVATION ON
+
+            </label>
+            @Html.TextBoxFor(m => m.DEACTIVATION_ON, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                DATE OF ASSET SOLD
+            </label>
+            @Html.TextBoxFor(m => m.DATE_OF_ASSET_SOLD, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                LOCATION
+            </label>
+            @Html.TextBoxFor(m => m.LOCATION, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                LOCATION DESCRIPTION
+            </label>
+            @Html.TextBoxFor(m => m.LOCATION_DESCRIPTION, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                COST CENTER
+            </label>
+            @Html.TextBoxFor(m => m.COST_CENTER, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                QUANTITIES
+            </label>
+            @Html.TextBoxFor(m => m.QUANTITIES, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                DESCRIPTION KEY
+            </label>
+            @Html.TextBoxFor(m => m.DESCRIPTION_KEY, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                RATE OF DEP
+            </label>
+            @Html.TextBoxFor(m => m.RATE_OF_DEP, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                SERIAL NUMBER
+            </label>
+            @Html.TextBoxFor(m => m.SERIAL_NUMBER, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                INVENTORY NO
+            </label>
+            @Html.TextBoxFor(m => m.INVENTORY_NO, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                ASSET TAG
+            </label>
+            @Html.TextBoxFor(m => m.ASSET_TAG, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                DOCUMENT NUMBER
+            </label>
+            @Html.TextBoxFor(m => m.DOCUMENT_NUMBER, new { @class = "form-control" })
+        </div>
+
+
+        <div class="form-group col-md-4">
+            <label>
+                DOCUMENT DATE
+            </label>
+            @Html.TextBoxFor(m => m.DOCUMENT_DATE, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                AUC DOCUMENT
+            </label>
+            @Html.TextBoxFor(m => m.AUC_DOCUMENT, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                AUC DOCUMENT DATE
+            </label>
+            @Html.TextBoxFor(m => m.AUC_DOCUMENT_DATE, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                AUC DOCUMENT TAX C
+            </label>
+            @Html.TextBoxFor(m => m.AUC_DOCUMENT_TAX_C, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                VENDOR CODE
+            </label>
+            @Html.TextBoxFor(m => m.VENDOR_CODE, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                NAME OF VENDOR
+            </label>
+            @Html.TextBoxFor(m => m.NAME_OF_VENDOR, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                BILL NO
+            </label>
+            @Html.TextBoxFor(m => m.BILL_NO, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                TYPE
+            </label>
+            @Html.TextBoxFor(m => m.TYPE, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                SCOPE
+            </label>
+            @Html.TextBoxFor(m => m.SCOPE, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                TYPE URCFO
+            </label>
+            @Html.TextBoxFor(m => m.TYPE_URCFO, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                SUBTYPE URCFO
+            </label>
+            @Html.TextBoxFor(m => m.SUBTYPE_URCFO, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                REGION
+            </label>
+            @Html.TextBoxFor(m => m.Region, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                STATE
+            </label>
+            @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                AGEING
+            </label>
+            @Html.TextBoxFor(m => m.AGEING, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>
+                NUM_PHOTO
+            </label>
+            @Html.TextBoxFor(m => m.NUM_PHOTO, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>
+                Barcode
+            </label>
+            @Html.TextBoxFor(m => m.BarcodeNo, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">
+                    Asset Images
+                </div>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.AssetPhoto1))
+                {
+                        <figure class="figure">
+                            <img class="bd-placeholder-img figure-img img-fluid rounded card-img" style="height:300px;width:300px;" src="@Model.AssetPhoto1" alt="...">
+                        </figure>
+                }
+                @if (!string.IsNullOrEmpty(Model.AssetPhoto2))
+                {
+                        <figure class="figure">
+                            <img class="bd-placeholder-img figure-img img-fluid rounded card-img" style="height:300px;width:300px;" src="@Model.AssetPhoto2" alt="...">
+                        </figure>
+                }
+            </div>
+        </div>
+
+        <div class="form-group col-md-4 mt-4">
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
+    </div>
+}
+

@@ -1,0 +1,107 @@
+﻿@model List<AssetsManagement_Admin.Areas.SuperAdmin.Data.Company>
+@{
+    ViewBag.Title = "CompanyDirectory";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+<link href="~/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">Manage Vendor</div>
+            </div>
+            <div class="card-body">
+                @if (Model != null && Model.Count > 0)
+                {
+                    <table id="file-export" class="table table-bordered text-nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Contact Person</th>
+                                <th scope="col">Contact Person Email</th>
+                                <th scope="col">Contact Person Number</th>
+
+                                <th scope="col">Contact Person 2</th>
+                                <th scope="col">Contact Person Email 2</th>
+                                <th scope="col">Contact Person Number 2</th>
+
+                                <th scope="col">Contact Person 3</th>
+                                <th scope="col">Contact Person Email 3</th>
+                                <th scope="col">Contact Person Number 3</th>
+
+                                <th scope="col">Status</th>
+                                <th scope="col">Created By</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@item.CompanyName</td>
+                                <td>@item.CompanyContactPerson</td>
+                                <td>@item.CompanyContactEmail</td>
+                                <td>@item.CompanyContactNumber</td>
+
+                                <td>@item.CompanyContactPerson2</td>
+                                <td>@item.CompanyContactEmail2</td>
+                                <td>@item.CompanyContactNumber2</td>
+
+                                <td>@item.CompanyContactPerson3</td>
+                                <td>@item.CompanyContactEmail3</td>
+                                <td>@item.CompanyContactNumber3</td>
+
+                                <td>
+                                    <center>
+                                        @Html.Raw(item.isActive == true
+                                        ? "<span class='badge bg-success-transparent'>Active</span>"
+                                        : "<span class='badge bg-light text-dark'>InActive</span>")
+                                    </center>
+                                </td>
+
+                                <td>@item.CreatedBy</td>
+
+                                <td>
+                                    <div class="hstack gap-2 fs-15">
+                                        <a href="@Url.Action("DeleteCompanyDirectory", "CompanyManagement",new {Id=item.CompanyId})" class="btn btn-icon btn-sm btn-danger-light rounded-pill delete-Vendor"><i class="ri-delete-bin-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <h4>No Data Found..</h4>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<!-- Datatables Cdn -->
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- Internal Datatables JS -->
+<script src="~/assets/js/datatables.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/jquery.js"></script>

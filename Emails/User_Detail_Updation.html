@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Fixed Asset Verification by URCFO</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e6e6e6;
+        }
+
+        .header {
+            background: linear-gradient(45deg, rgb(243, 48, 87), rgb(56, 88, 249));
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 25px;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .credentials-box {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dddddd;
+            margin-top: 10px;
+        }
+
+            .credentials-box p {
+                margin: 6px 0;
+            }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, rgb(243, 48, 87), rgb(56, 88, 249));
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            Welcome to Fixed Asset Verification
+        </div>
+
+        <div class="content">
+            <p>Hi <strong>{{user_name}}</strong>,</p>
+
+            <p>
+                We are delighted to inform you that your account updation with
+                <strong>Fixed Asset Verification</strong> has been completed successfully.
+            </p>
+
+            <p>Your account has been created, and you can now access the portal using the credentials below:</p>
+
+            <div class="credentials-box">
+                <p><strong>Login URL:</strong> {{login_link}}</p>
+                <p><strong>Username:</strong> {{user_id}}</p>
+                <p><strong>Password:</strong> {{password}}</p>
+            </div>
+
+            <p>
+                Please log in to start your workplace survey and continue your
+                <strong>Fixed Asset Verification journey</strong>.
+            </p>
+
+            <center>
+                <a class="btn" href="{{login_link}}" target="_blank">Login Now</a>
+            </center>
+
+            <p>
+                If you need any assistance or have questions, feel free to reach out to our support team.
+            </p>
+
+            <p>
+                Thank you for choosing Fixed Asset Verification.<br>
+                <strong>Fixed Asset Verification Team</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            ©
+            <script>
+                var CurrentYear = new Date().getFullYear()
+                document.write(CurrentYear)</script>  Fixed Asset Verification by URCFO. All Rights Reserved.
+        </div>
+    </div>
+</body>
+</html>

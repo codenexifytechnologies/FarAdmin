@@ -1,0 +1,288 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var toastSuccess = document.getElementById('solid-successToast');
+    var toastDanger  = document.getElementById('solid-dangerToast');
+    var toastInfo    = document.getElementById('solid-infoToast');
+
+    @* SUCCESS *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <text>
+            if (toastSuccess) {
+                new bootstrap.Toast(toastSuccess).show();
+            }
+        </text>
+    }
+
+    @* ERROR *@
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <text>
+            if (toastDanger) {
+                new bootstrap.Toast(toastDanger).show();
+            }
+        </text>
+    }
+
+    @* INFO *@
+    @if (TempData["InfoMessage"] != null)
+    {
+        <text>
+            if (toastInfo) {
+                new bootstrap.Toast(toastInfo).show();
+            }
+        </text>
+    }
+
+});
+</script>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="solid-successToast" class="toast colored-toast bg-success text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-success text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["SuccessMessage"]
+        </div>
+    </div>
+    <div id="solid-dangerToast" class="toast colored-toast bg-danger text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-danger text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["ErrorMessage"]
+        </div>
+    </div>
+    <div id="solid-infoToast" class="toast colored-toast bg-info text-fixed-white" role="alert" aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header bg-info text-fixed-white">
+            <img class="bd-placeholder-img rounded me-2" src="~/assets/images/brand-logos/toggle-dark.png" alt="...">
+            <strong class="me-auto">Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["InfoMessage"]
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css" />
+
+<div class="row row-sm">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="mb-4 main-content-label">View Report</div>
+
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Select Report *</label>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            @Html.DropDownList(
+                                "Report",
+                                (SelectList)ViewBag.Report,
+                                "Select Report",
+                                new { @class = "form-select" }
+                            )
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Select Company *</label>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            @Html.DropDownList(
+                                "CompanyId",
+                                (SelectList)ViewBag.Company,
+                                "Select Company",
+                                new { @class = "form-select", id = "CompanyId", onchange = "ddlchange()" }
+                            )
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Select Branch</label>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            @Html.DropDownList(
+                            "VendorBranch",
+                            (SelectList)ViewBag.VendorBranch,
+                            "All",
+                            new { @class = "form-select", id = "VendorBranch", onchange = "ddlchange()", disabled = "disabled" }
+                        )
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Select Region</label>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            @Html.DropDownList(
+                            "Region",
+                            (SelectList)ViewBag.Region,
+                            "All",
+                            new { @class = "form-select", id = "Region", onchange = "ddlchange()", disabled = "disabled" }
+                            )
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Select State</label>
+                        </div>
+
+                        <div class="form-group col-md-9">
+                            @Html.DropDownList(
+                            "State",
+                            (SelectList)ViewBag.State,
+                            "All",
+                            new { @class = "form-select", id = "State", onchange = "ddlchange()", disabled = "disabled" }
+                            )
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            @*<div class="card-footer">
+                    <input type="button"
+                           id="btnSearch"
+                           class="btn btn-primary waves-effect waves-light"
+                           value="Search">
+                </div>*@
+            <div class="card-footer">
+                <button id="btnDownload" class="btn btn-primary" disabled onclick="downloadCSV()">
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" />
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<script>
+    function ddlchange() {
+        $('#loader').show();
+        var companyId = $('#CompanyId').val();
+
+        if (companyId > 0) {
+
+            $("#VendorBranch").prop("disabled", false);
+            $("#Region").prop("disabled", false);
+            $("#State").prop("disabled", false);
+            $("#btnDownload").prop("disabled", false);
+
+            // STORE CURRENT SELECTED VALUES
+            var branchname = $('#VendorBranch').val();
+            var region = $('#Region').val();
+            var state = $('#State').val();
+
+            // CLEAR DROPDOWNS
+            $("#VendorBranch").empty().append('<option value="">All</option>');
+            $("#Region").empty().append('<option value="">All</option>');
+            $("#State").empty().append('<option value="">All</option>');
+
+            $.ajax({
+                url: '@Url.Action("getFilterData", "Dashboard")',
+                type: 'GET',
+                data: {
+                    CompanyID: companyId,
+                    BranchName: branchname,
+                    Region: region,
+                    State: state
+                },
+                success: function (data) {
+                    // VendorBranch
+                    $.each(data.data[0], function (i, item) {
+
+                        var selected = (item.Value == branchname) ? 'selected' : '';
+
+                        $("#VendorBranch").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+
+                    // Region
+                    $.each(data.data[1], function (i, item) {
+
+                        var selected = (item.Value == region) ? 'selected' : '';
+
+                        $("#Region").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+
+                    // State
+                    $.each(data.data[2], function (i, item) {
+
+                        var selected = (item.Value == state) ? 'selected' : '';
+
+                        $("#State").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+                },
+                error: function () {
+                    alert("Failed to load.");
+                }
+            });
+        }
+        else {
+
+            $("#VendorBranch").prop("disabled", true);
+            $("#Region").prop("disabled", true);
+            $("#State").prop("disabled", true);
+            $("#btnDownload").prop("disabled", true);
+        }
+        $('#loader').hide();
+    }
+</script>
+
+<script>
+    function downloadCSV() {
+        var companyId = $('#CompanyId').val();
+        var Report = $('#Report').val();
+        var Region = $('#Region').val();
+        var State = $('#State').val();
+        var branch = $('#VendorBranch').val();
+        window.location.href =
+            '@Url.Action("GetReport", "Report")'
+            + '?CompanyID=' + companyId
+            + '&BranchName=' + branch
+        + '&Region=' + Region
+        + '&State=' + State
+        + '&Report=' + Report;
+    }
+</script>

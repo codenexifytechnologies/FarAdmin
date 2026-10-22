@@ -1,0 +1,681 @@
+﻿@model AssetsManagement_Admin.Operations.FilterRequest
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.DashboardChart);
+    List<AssetsManagement_Admin.Areas.SuperAdmin.Data.PieChartData> _objPieChartData = null;
+    List<AssetsManagement_Admin.Areas.SuperAdmin.Data.BarChartData> _objYBarChartData = null;
+    List<AssetsManagement_Admin.Areas.SuperAdmin.Data.BarChartData> _objNBarChartData = null;
+    if (json != "null")
+    {
+        AssetsManagement_Admin.Areas.SuperAdmin.Data.DashboardChart chartData = Newtonsoft.Json.JsonConvert.DeserializeObject<AssetsManagement_Admin.Areas.SuperAdmin.Data.DashboardChart>(json);
+
+        _objPieChartData = chartData.objPieChartData;
+        _objYBarChartData = chartData.objYBarChartData;
+        _objNBarChartData = chartData.objNBarChartData;
+    }
+}
+
+<br />
+@using (Html.BeginForm("Index", "Dashboard", FormMethod.Post))
+{
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label>Company</label>
+            <div class="p-2">
+                @Html.DropDownListFor(
+                    x => x.CompanyId,
+                    (SelectList)ViewBag.Company,
+                    "All",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "CompanyId",
+                        onchange = "ddlchange()"
+                    })
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Branch</label>
+            <div class="p-2">
+                @Html.DropDownListFor(
+                    x => x.BranchName,
+                    (SelectList)ViewBag.VendorBranch,
+                    "All",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "VendorBranch",
+                        disabled = "disabled",
+                        onchange = "ddlchange()"
+                    })
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Region</label>
+            <div class="p-2">
+                @Html.DropDownListFor(
+                    x => x.Region,
+                    (SelectList)ViewBag.Region,
+                    "All",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "Region",
+                        disabled = "disabled",
+                        onchange = "ddlchange()"
+                    })
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label>State</label>
+            <div class="p-2">
+                @Html.DropDownListFor(
+                    x => x.State,
+                    (SelectList)ViewBag.State,
+                    "All",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "State",
+                        disabled = "disabled",
+                        onchange = "ddlchange()"
+                    })
+            </div>
+        </div>
+
+        <div class="form-group col-md-3 mt-4">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+
+    </div>
+}
+@if (_objPieChartData != null)
+{
+    <hr />
+    <br />
+    <h2>Block Pie Chart</h2>
+    <br />
+    <div class="row">
+
+        <div class="col-md-3">
+            <h5>Gross Block Pie Chart</h5>
+            <div id="pie-Grossbasic"></div>
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th scope="col">Ageing</th>
+                                <th scope="col">Gross Block</th>
+                                <th scope="col">Net Block</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_objPieChartData == null)
+                            {
+                                <tr>
+                                    <td colspan="3">No Records</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in _objPieChartData)
+                                {
+                                    <tr>
+                                        <td>@item.Ageing</td>
+                                        <td>@item.BlockValues</td>
+                                        <td>@item.NetValues</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h5>Net Block Pie Chart</h5>
+            <div id="pie-Netbasic"></div>
+        </div>
+    </div>
+}
+@if (_objYBarChartData != null)
+{
+    <br />
+    <hr />
+    <h2>Gross Bar Chart</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th scope="col">Asset Age</th>
+                                <th scope="col">Gross Block</th>
+                                <th scope="col">WDV</th>
+                                <th scope="col">Gross block %</th>
+                                <th scope="col">WDV %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_objYBarChartData == null)
+                            {
+                                <tr>
+                                    <td colspan="5">No Records</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in _objYBarChartData)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Ageing</th>
+                                        <td>@item.BlockValues</td>
+                                        <td>@item.NetValues</td>
+                                        <td>@item.BlockValuePercentage%</td>
+                                        <td>@item.NetValuePercentage%</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @if (_objYBarChartData != null)
+            {
+                <div id="column-basic"></div>
+            }
+        </div>
+        <div class="col-md-6">
+            @if (_objYBarChartData != null)
+            {
+                <div id="column-percentagebasic"></div>
+            }
+        </div>
+
+    </div>
+}
+@if (_objNBarChartData != null)
+{
+    <br />
+    <hr />
+    <h2>Gross Bar Chart</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th scope="col">Asset Age</th>
+                                <th scope="col">Gross Block</th>
+                                <th scope="col">WDV</th>
+                                <th scope="col">Gross block %</th>
+                                <th scope="col">WDV %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_objNBarChartData == null)
+                            {
+                                <tr>
+                                    <td colspan="5">No Records</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in _objNBarChartData)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Ageing</th>
+                                        <td>@item.BlockValues</td>
+                                        <td>@item.NetValues</td>
+                                        <td>@item.BlockValuePercentage%</td>
+                                        <td>@item.NetValuePercentage%</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="column-nbasic"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="column-npercentagebasic"></div>
+        </div>
+
+    </div>
+}
+<script src="~/assets/js/jquery/jquery.js"></script>
+<script src="~/assets/js/jquery-validation/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var companyId = $('#CompanyId').val();
+
+        if (companyId > 0) {
+
+            $("#VendorBranch").prop("disabled", false);
+            $("#Region").prop("disabled", false);
+            $("#State").prop("disabled", false);
+            $("#btnDownload").prop("disabled", false);
+        }
+        else {
+            $("#VendorBranch").prop("disabled", true);
+            $("#Region").prop("disabled", true);
+            $("#State").prop("disabled", true);
+            $("#btnDownload").prop("disabled", true);
+        }
+        });
+
+
+    function ddlchange() {
+        $('#loader').show();
+        var companyId = $('#CompanyId').val();
+
+        if (companyId > 0) {
+
+            $("#VendorBranch").prop("disabled", false);
+            $("#Region").prop("disabled", false);
+            $("#State").prop("disabled", false);
+            $("#btnDownload").prop("disabled", false);
+
+            // STORE CURRENT SELECTED VALUES
+            var branchname = $('#VendorBranch').val();
+            var region = $('#Region').val();
+            var state = $('#State').val();
+
+            // CLEAR DROPDOWNS
+            $("#VendorBranch").empty().append('<option value="">All</option>');
+            $("#Region").empty().append('<option value="">All</option>');
+            $("#State").empty().append('<option value="">All</option>');
+
+            $.ajax({
+                url: '@Url.Action("getFilterData", "Dashboard")',
+                type: 'GET',
+                data: {
+                    CompanyID: companyId,
+                    BranchName: branchname,
+                    Region: region,
+                    State: state
+                },
+                success: function (data) {
+                    // VendorBranch
+                    $.each(data.data[0], function (i, item) {
+
+                        var selected = (item.Value == branchname) ? 'selected' : '';
+
+                        $("#VendorBranch").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+
+                    // Region
+                    $.each(data.data[1], function (i, item) {
+
+                        var selected = (item.Value == region) ? 'selected' : '';
+
+                        $("#Region").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+
+                    // State
+                    $.each(data.data[2], function (i, item) {
+
+                        var selected = (item.Value == state) ? 'selected' : '';
+
+                        $("#State").append(
+                            '<option value="' + item.Value + '" ' + selected + '>' +
+                            item.Text +
+                            '</option>'
+                        );
+                    });
+                },
+                error: function () {
+                    alert("Failed to load.");
+                }
+            });
+        }
+        else {
+
+            $("#VendorBranch").prop("disabled", true);
+            $("#Region").prop("disabled", true);
+            $("#State").prop("disabled", true);
+            $("#btnDownload").prop("disabled", true);
+        }
+        $('#loader').hide();
+    }
+</script>
+<script src="~/assets/libs/chart.js/chart.min.js"></script>
+<script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="~/assets/js/apexcharts-pie.js"></script>
+<script>
+    var pieChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(_objPieChartData));
+    if (pieChartData != null)
+    {
+        var seriesData = pieChartData.map(function (x) {
+            return parseFloat(x.BlockValues);
+        });
+
+        var labelData = pieChartData.map(function (x) {
+            return x.Ageing;
+        });
+
+        var options = {
+            series: seriesData,
+            chart: {
+                height: 300,
+                type: 'pie'
+            },
+            colors: ["#8e54e9", "#4876e6", "#f5b849", "#49b6f5", "#e6533c"],
+            labels: labelData,
+            legend: {
+                position: "bottom"
+            },
+            dataLabels: {
+                enabled: false,
+                dropShadow: {
+                    enabled: false
+                }
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#pie-Grossbasic"),
+            options
+        );
+
+        chart.render();
+
+        var seriesData = pieChartData.map(function (x) {
+            return parseFloat(x.NetValues);
+        });
+
+        var labelData = pieChartData.map(function (x) {
+            return x.Ageing;
+        });
+
+        var options = {
+            series: seriesData,
+            chart: {
+                height: 300,
+                type: 'pie'
+            },
+            colors: ["#8e54e9", "#4876e6", "#f5b849", "#49b6f5", "#e6533c"],
+            labels: labelData,
+            legend: {
+                position: "bottom"
+            },
+            dataLabels: {
+                enabled: false,
+                dropShadow: {
+                    enabled: false
+                }
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#pie-Netbasic"),
+            options
+        );
+
+        chart.render();
+    }
+
+</script>
+
+<script>
+    var YBarChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(_objYBarChartData));
+    if (YBarChartData != null)
+    {
+        var categories = YBarChartData.map(x => x.Ageing);
+
+        var grossBlockData = YBarChartData.map(x => Number(x.BlockValues));
+
+        var netBlockData = YBarChartData.map(x => Number(x.NetValues));
+
+        var options = {
+            series: [{
+                name: 'Gross Block',
+                data: grossBlockData
+            }, {
+                name: 'WDV',
+                data: netBlockData
+            }],
+            chart: {
+                type: 'bar',
+                height: 320
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '80%',
+                    endingShape: 'rounded'
+                }
+            },
+            grid: {
+                borderColor: '#f2f5f7'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#8e54e9", "#f5b849"],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: categories
+            },
+            yaxis: {
+                labels: {
+                    show: true
+                }
+            },
+            fill: {
+                opacity: 1
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#column-basic"),
+            options
+        );
+
+        chart.render();
+
+        var categories = YBarChartData.map(x => x.Ageing);
+
+        var grossBlockData = YBarChartData.map(x => Number(x.BlockValuePercentage));
+
+        var netBlockData = YBarChartData.map(x => Number(x.NetValuePercentage));
+
+        var options = {
+            series: [{
+                name: 'Gross Block',
+                data: grossBlockData
+            }, {
+                name: 'WDV',
+                data: netBlockData
+            }],
+            chart: {
+                type: 'bar',
+                height: 320
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '80%',
+                    endingShape: 'rounded'
+                }
+            },
+            grid: {
+                borderColor: '#f2f5f7'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#8e54e9", "#f5b849"],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: categories
+            },
+            yaxis: {
+                labels: {
+                    show: true
+                }
+            },
+            fill: {
+                opacity: 1
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#column-percentagebasic"),
+            options
+        );
+
+        chart.render();
+    }
+
+
+     var NBarChartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(_objNBarChartData));
+    if (NBarChartData != null)
+    {
+        var categories = NBarChartData.map(x => x.Ageing);
+
+        var grossBlockData = NBarChartData.map(x => Number(x.BlockValues));
+
+        var netBlockData = NBarChartData.map(x => Number(x.NetValues));
+        debugger;
+        var options = {
+            series: [{
+                name: 'Gross Block',
+                data: grossBlockData
+            }, {
+                name: 'WDV',
+                data: netBlockData
+            }],
+            chart: {
+                type: 'bar',
+                height: 320
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '80%',
+                    endingShape: 'rounded'
+                }
+            },
+            grid: {
+                borderColor: '#f2f5f7'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#8e54e9", "#f5b849"],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: categories
+            },
+            yaxis: {
+                labels: {
+                    show: true
+                }
+            },
+            fill: {
+                opacity: 1
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#column-nbasic"),
+            options
+        );
+
+        chart.render();
+
+        var categories = NBarChartData.map(x => x.Ageing);
+
+        var grossBlockData = NBarChartData.map(x => Number(x.BlockValuePercentage));
+
+        var netBlockData = NBarChartData.map(x => Number(x.NetValuePercentage));
+
+        var options = {
+            series: [{
+                name: 'Gross Block',
+                data: grossBlockData
+            }, {
+                name: 'WDV',
+                data: netBlockData
+            }],
+            chart: {
+                type: 'bar',
+                height: 320
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '80%',
+                    endingShape: 'rounded'
+                }
+            },
+            grid: {
+                borderColor: '#f2f5f7'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#8e54e9", "#f5b849"],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: categories
+            },
+            yaxis: {
+                labels: {
+                    show: true
+                }
+            },
+            fill: {
+                opacity: 1
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#column-npercentagebasic"),
+            options
+        );
+
+        chart.render();
+    }
+
+</script>
