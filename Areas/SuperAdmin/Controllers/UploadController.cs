@@ -23,9 +23,15 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadAsset(HttpPostedFileBase file, int CompanyId, string FARDate)
+        public ActionResult UploadAsset(HttpPostedFileBase file, int? CompanyId, string FARDate)
         {
             ViewBag.Company = new SelectList(Common.getAllCompany(), "Value", "Text");
+
+            if (CompanyId == null || CompanyId <= 0)
+            {
+                TempData["ErrorMessage"] = "Please select a Company.";
+                return View();
+            }
 
             if (file == null || file.ContentLength == 0)
             {
@@ -33,14 +39,21 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
                 return View();
             }
 
+            if (string.IsNullOrWhiteSpace(FARDate) || !DateTime.TryParse(FARDate, out _))
+            {
+                TempData["ErrorMessage"] = "Please choose a valid FAR Date.";
+                return View();
+            }
+
             UploadOperations uploadOperations = new UploadOperations();
 
-            UploadAssetResult result = uploadOperations.UploadAsset(file, CompanyId, FARDate);
+            UploadAssetResult result = uploadOperations.UploadAsset(file, CompanyId.Value, FARDate);
 
             if (!result.IsSuccess)
             {
                 if (result.ErrorFileBytes != null)
                 {
+                    Common.SetDownloadTokenCookie(Request, Response);
                     return File(result.ErrorFileBytes, "text/csv", result.ErrorFileName);
                 }
 

@@ -14252,6 +14252,7 @@
     <Content Include="assets\js\select2.js" />
     <Content Include="assets\js\show-password.js" />
     <Content Include="assets\js\sidemenu.js" />
+    <Content Include="assets\js\form-validation.js" />
     <Content Include="assets\js\simplebar.js" />
     <Content Include="assets\js\spain.js" />
     <Content Include="assets\js\sticky.js" />

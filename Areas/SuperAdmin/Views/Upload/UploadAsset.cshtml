@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="row row-sm">
     <div class="col-lg-12">
         <div class="card">
-            @using (Html.BeginForm("UploadAsset", "Upload", new { area = "SuperAdmin" }, FormMethod.Post, new { @class = "max-width-auto", @id = "UploadAsset", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("UploadAsset", "Upload", new { area = "SuperAdmin" }, FormMethod.Post, new { @class = "max-width-auto", @id = "UploadAsset", enctype = "multipart/form-data", data_download = "true" }))
             {
                 <div class="card-body">
                     <div class="mb-4 main-content-label">Asset Upload</div>
@@ -160,6 +160,50 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <script src="~/assets/js/jquery/jquery.js"></script>
 <script src="~/assets/js/jquery-validation/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#UploadAsset').validate({
+            rules: {
+                CompanyId: {
+                    required: true,
+                },
+                file: {
+                    required: true,
+                },
+                FARDate: {
+                    required: true,
+                },
+            },
+            messages: {
+                CompanyId: {
+                    required: "Please select a Company",
+                },
+                file: {
+                    required: "Please select the Asset Details CSV file",
+                },
+                FARDate: {
+                    required: "Please choose the FAR Date",
+                },
+            },
+            errorElement: 'p',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback d-block');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
+        // The date picker and file input change the value without a keyup, so re-check on change
+        $('#CompanyId, #formFile, #date').on('change', function () {
+            $(this).valid();
+        });
+    });
+</script>
 
 
 <!-- Date & Time Picker JS -->

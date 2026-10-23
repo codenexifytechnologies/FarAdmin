@@ -14,7 +14,7 @@
     <div class="col-xl-12">
         <div class="card custom-card">
             <div class="card-header">
-                <div class="card-title">Manage Vendor</div>
+                <div class="card-title">Company Directory</div>
             </div>
             <div class="card-body">
                 @if (Model != null && Model.Count > 0)
@@ -69,7 +69,7 @@
 
                                 <td>
                                     <div class="hstack gap-2 fs-15">
-                                        <a href="@Url.Action("DeleteCompanyDirectory", "CompanyManagement",new {Id=item.CompanyId})" class="btn btn-icon btn-sm btn-danger-light rounded-pill delete-Vendor"><i class="ri-delete-bin-line"></i></a>
+                                        <a href="@Url.Action("DeleteCompanyDirectory", "CompanyManagement",new {Id=item.CompanyId})" class="btn btn-icon btn-sm btn-danger-light rounded-pill delete-Company"><i class="ri-delete-bin-line"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -105,3 +105,23 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/js/jquery.js"></script>
+<script>
+    $(document).on("click", ".delete-Company", function (e) {
+        e.preventDefault();
+        var url = $(this).attr("href");
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                showLoader();
+                window.location.href = url;
+            }
+        });
+    });
+</script>

@@ -187,8 +187,64 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
     </div>
 </div>
-<script src="~/assets/js/vendor/jquery.js"></script>
+<script src="~/assets/js/jquery/jquery.js"></script>
 <script src="~/assets/js/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#RegisterCompany').validate($.extend({}, window.formValidationDisplay, {
+            rules: {
+                CompanyName: {
+                    required: true,
+                    notBlank: true,
+                    minlength: 2,
+                    maxlength: 100,
+                },
+                CompanyContactPerson: {
+                    required: true,
+                    notBlank: true,
+                    lettersOnly: true,
+                    maxlength: 100,
+                },
+                CompanyContactNumber: {
+                    required: true,
+                    tenDigitMobile: true,
+                },
+                CompanyContactEmail: {
+                    required: true,
+                    validEmail: true,
+                    maxlength: 100,
+                },
+                CompanyContactPerson2: { lettersOnly: true, maxlength: 100 },
+                CompanyContactNumber2: { tenDigitMobile: true },
+                CompanyContactEmail2: { validEmail: true, maxlength: 100 },
+                CompanyContactPerson3: { lettersOnly: true, maxlength: 100 },
+                CompanyContactNumber3: { tenDigitMobile: true },
+                CompanyContactEmail3: { validEmail: true, maxlength: 100 },
+            },
+            messages: {
+                CompanyName: {
+                    required: "Please enter the Name",
+                    notBlank: "Please enter the Name",
+                    minlength: "Name must be at least 2 characters",
+                    maxlength: "Name cannot be longer than 100 characters",
+                },
+                CompanyContactPerson: {
+                    required: "Please enter the Contact Person",
+                    notBlank: "Please enter the Contact Person",
+                    maxlength: "Contact Person cannot be longer than 100 characters",
+                },
+                CompanyContactNumber: {
+                    required: "Please enter the Contact Person Number",
+                },
+                CompanyContactEmail: {
+                    required: "Please enter the Contact Person Email",
+                    maxlength: "Email cannot be longer than 100 characters",
+                },
+            },
+        }));
+    });
+</script>
 
 <script>
     function isNumber(evt) {

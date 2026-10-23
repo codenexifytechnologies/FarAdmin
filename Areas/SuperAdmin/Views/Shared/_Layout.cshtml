@@ -28,6 +28,11 @@
     <link rel="stylesheet" href="~/assets/libs/swiper/swiper-bundle.min.css">
 </head>
 <body>
+    @* Visible from the first paint; hidden by the script at the end of the page once everything has loaded *@
+    <div id="actionLoader" style="display:flex; position:fixed; inset:0; z-index:20000; background:rgba(0,0,0,0.45); align-items:center; justify-content:center; flex-direction:column;">
+        <div class="spinner-border text-light" role="status" style="width:3rem; height:3rem;"></div>
+        <div class="text-light mt-3 fs-15">Please wait...</div>
+    </div>
     <div id="loader">
         <img src="~/assets/images/media/media-75.svg" alt="">
     </div>
@@ -306,7 +311,7 @@
                                     </div>
                                     <div class="project-content">
                                         <h6>Total Companies</h6>
-                                        <h4>@objUsers.DashboardCount.Company</h4>
+                                        <h4 id="countCompany">@objUsers.DashboardCount.Company</h4>
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +334,7 @@
                                     </div>
                                     <div class="project-content">
                                         <h6>Total Branches</h6>
-                                        <h4>@objUsers.DashboardCount.Branch</h4>
+                                        <h4 id="countBranch">@objUsers.DashboardCount.Branch</h4>
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +354,7 @@
                                     </div>
                                     <div class="project-content">
                                         <h6>Total Partners</h6>
-                                        <h4>@objUsers.DashboardCount.Vendor</h4>
+                                        <h4 id="countVendor">@objUsers.DashboardCount.Vendor</h4>
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +372,7 @@
                                     </div>
                                     <div class="project-content">
                                         <h6>Total Users</h6>
-                                        <h4>@objUsers.DashboardCount.Users</h4>
+                                        <h4 id="countUsers">@objUsers.DashboardCount.Users</h4>
                                     </div>
                                 </div>
                             </div>
@@ -414,10 +419,119 @@
     <script src="~/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
     <script src="~/assets/libs/jsvectormap/maps/world-merc.js"></script>
     <script>
+        // Full-screen loader for actions that call the server (search, register, delete, upload, download)
+        window.showLoader = function () {
+            document.getElementById('actionLoader').style.display = 'flex';
+        };
+        window.hideLoader = function () {
+            document.getElementById('actionLoader').style.display = 'none';
+        };
+
+        // File responses don't leave the page, so the server sets a cookie with this token when the file is sent
+        window.trackDownload = function (token) {
+            var timer = setInterval(function () {
+                if (document.cookie.indexOf('fileDownloadToken=' + token) !== -1) {
+                    clearInterval(timer);
+                    document.cookie = 'fileDownloadToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                    hideLoader();
+                }
+            }, 500);
+        };
+
+        window.newDownloadToken = function () {
+            return String(Date.now());
+        };
+
+        // Any form submit that passed validation (validation cancels the event when it fails)
+        document.addEventListener('submit', function (e) {
+            if (e.defaultPrevented) {
+                return;
+            }
+            var form = e.target;
+            if (form.hasAttribute('data-download')) {
+                var token = newDownloadToken();
+                var input = form.querySelector('input[name="downloadToken"]');
+                if (!input) {
+                    input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'downloadToken';
+                    form.appendChild(input);
+                }
+                input.value = token;
+                trackDownload(token);
+            }
+            showLoader();
+        });
+
+        // Any link to another page in this site (menu items, edit and delete icons...).
+        // Skipped: menu toggles (#, javascript:), new tabs, file downloads, Ctrl/Shift-clicks,
+        // and links whose own handler cancelled the click (e.g. waiting on an "Are you sure?" dialog)
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest ? e.target.closest('a[href]') : null;
+            if (!link || e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+                return;
+            }
+            var href = link.getAttribute('href');
+            if (!href || href.charAt(0) === '#' || href.indexOf('javascript:') === 0 ||
+                link.hasAttribute('download') || (link.target && link.target !== '_self') ||
+                link.hasAttribute('data-bs-toggle') || link.origin !== window.location.origin) {
+                return;
+            }
+            if (link.pathname === window.location.pathname && link.search === window.location.search && link.hash) {
+                return;
+            }
+            showLoader();
+        });
+
+        // Page-load loader: hide once the page and its scripts/images have finished loading
+        window.addEventListener('load', hideLoader);
+        // Safety net in case a slow external script or image never finishes loading
+        setTimeout(hideLoader, 15000);
+
+        // Coming back with the browser Back button can restore the page with the loader still showing
+        window.addEventListener('pageshow', function () {
+            hideLoader();
+            refreshDashboardCount();
+        });
+
+        // Header counts come from the session (set at login), so fetch the current values on every page
+        function refreshDashboardCount() {
+            fetch('@Url.Action("GetDashboardCount", "Dashboard", new { area = "SuperAdmin" })', {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                cache: 'no-store'
+            })
+                .then(function (response) {
+                    if (response.status === 401) {
+                        window.location.href = '@Url.Action("LogOff", "Login", new { area = "" })';
+                        return null;
+                    }
+                    return response.ok ? response.json() : null;
+                })
+                .then(function (count) {
+                    if (!count) {
+                        return;
+                    }
+                    document.getElementById('countCompany').textContent = count.Company;
+                    document.getElementById('countBranch').textContent = count.Branch;
+                    document.getElementById('countVendor').textContent = count.Vendor;
+                    document.getElementById('countUsers').textContent = count.Users;
+                })
+                .catch(function () {
+                });
+        }
+
+        // Also refresh when the user comes back to this tab after working elsewhere
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                refreshDashboardCount();
+            }
+        });
+
         // Session expired during an AJAX call: send the user to login instead of failing silently
         window.addEventListener('load', function () {
             if (window.jQuery) {
                 jQuery(document).ajaxError(function (e, xhr) {
+                    hideLoader();
                     if (xhr.status === 401) {
                         window.location.href = '@Url.Action("LogOff", "Login", new { area = "" })';
                     }

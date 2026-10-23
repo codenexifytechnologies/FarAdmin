@@ -72,6 +72,16 @@ namespace AssetsManagement_Admin.Operations
             }
         }
 
+        // Lets the page's loader know a file download has started (see trackDownload in _Layout)
+        public static void SetDownloadTokenCookie(HttpRequestBase request, HttpResponseBase response)
+        {
+            string token = request["downloadToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                response.Cookies.Add(new HttpCookie("fileDownloadToken", token) { Path = "/" });
+            }
+        }
+
         public static void errorlog(string error, string method, string controller)
         {
             string Contents = "\n DateTime: " + DateTime.Now + "\n===========================\n Method Name: " + method + "\n Error: \n" + error + "\n controller: \n" + controller;

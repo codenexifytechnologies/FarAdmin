@@ -36,6 +36,22 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
+        // Live header counts; the copy stored in the session at login goes stale as records are added or deleted
+        [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetDashboardCount()
+        {
+            DashboardCount objDashboardCount = objDashboardOperations.GetDashboardCount();
+
+            User objUser = Session["User"] as User;
+            if (objUser != null)
+            {
+                objUser.DashboardCount = objDashboardCount;
+            }
+
+            return Json(objDashboardCount, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult Index(FilterRequest objFilterRequest)
         {

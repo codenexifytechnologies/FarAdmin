@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                showLoader();
                 document.getElementById("Delete").submit();
             }
         });

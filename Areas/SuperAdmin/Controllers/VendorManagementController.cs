@@ -117,7 +117,8 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
             }
             else
             {
-                ModelState.AddModelError("Error", "Please fiil all fileds");
+                // The redirect below drops ModelState, so pass the errors through TempData to show them
+                TempData["ErrorMessage"] = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
             }
             return RedirectToAction("EditManageVendor", "VendorManagement", new { area = "SuperAdmin" , Id= objVendor.VendorId });
         }
@@ -132,7 +133,7 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
             string strMsg = string.Empty;
             strMsg = objVendorManagementOperations.DeleteVendor(Id);
 
-            if (strMsg.Contains("Success"))
+            if (strMsg.Contains("success"))
             {
                 TempData["SuccessMessage"] = strMsg;
             }
@@ -141,7 +142,7 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
                 TempData["ErrorMessage"] = strMsg;
             }
 
-            return RedirectToAction("ManageVendor", "DeleteVendor", new { area = "SuperAdmin" });
+            return RedirectToAction("ManageVendor", "VendorManagement", new { area = "SuperAdmin" });
         }
 
 

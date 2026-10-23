@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary waves-effect waves-light">Register Company</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Register Vendor</button>
                 </div>
             }
         </div>
@@ -217,8 +217,45 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 <script src="~/assets/js/jquery/jquery.js"></script>
 <script src="~/assets/js/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
 <script>
     $(document).ready(function () {
+
+        // Branch stays disabled (and is skipped by validation) until a company is chosen; the company rule covers that case
+        $('#RegisterVendor').validate($.extend({}, window.formValidationDisplay, {
+            rules: {
+                VendorName: { required: true, notBlank: true, lettersOnly: true, minlength: 2, maxlength: 50 },
+                VendorContactNo: { required: true, tenDigitMobile: true },
+                VendorEmailId: { required: true, validEmail: true, maxlength: 50 },
+                VendorCompany: { required: true },
+                VendorBranch: { required: true },
+                VendorPassword: { required: true, noSpaces: true, minlength: 6, maxlength: 15 },
+            },
+            messages: {
+                VendorName: {
+                    required: "Please enter the Name",
+                    notBlank: "Please enter the Name",
+                    minlength: "Name must be at least 2 characters",
+                    maxlength: "Name cannot be longer than 50 characters",
+                },
+                VendorContactNo: { required: "Please enter the Contact No" },
+                VendorEmailId: {
+                    required: "Please enter the Email Id",
+                    maxlength: "Email cannot be longer than 50 characters",
+                },
+                VendorCompany: { required: "Please select a Company" },
+                VendorBranch: { required: "Please select a Branch" },
+                VendorPassword: {
+                    required: "Please create a Password",
+                    minlength: "Password must be at least 6 characters",
+                    maxlength: "Password cannot be longer than 15 characters",
+                },
+            },
+        }));
+
+        $('#VendorCompany, #VendorBranch').on('change', function () {
+            $(this).valid();
+        });
 
         $("#VendorCompany").change(function () {
 

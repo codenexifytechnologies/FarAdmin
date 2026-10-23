@@ -277,12 +277,16 @@ document.addEventListener('DOMContentLoaded', function () {
         var Region = $('#Region').val();
         var State = $('#State').val();
         var branch = $('#VendorBranch').val();
+        var token = newDownloadToken();
+        showLoader();
+        trackDownload(token);
         window.location.href =
             '@Url.Action("GetReport", "Report")'
             + '?CompanyID=' + companyId
             + '&BranchName=' + branch
         + '&Region=' + Region
         + '&State=' + State
-        + '&Report=' + Report;
+        + '&Report=' + Report
+        + '&downloadToken=' + token;
     }
 </script>

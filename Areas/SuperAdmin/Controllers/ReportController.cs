@@ -144,6 +144,7 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Controllers
                                 using (var stream = new MemoryStream())
                                 {
                                     workbook.SaveAs(stream);
+                                    Common.SetDownloadTokenCookie(Request, Response);
 
                                     return File(
                                         stream.ToArray(),

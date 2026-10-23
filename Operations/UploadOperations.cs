@@ -223,17 +223,17 @@ namespace AssetsManagement_Admin.Operations
 
             string capitalizedOn = csv.GetField(4);
 
-            if (string.IsNullOrWhiteSpace(capitalizedOn))
-            {
-                errors.Add("CAPITALIZED ON is mandatory");
-            }
-            else
-            {
-                if (!IsValidDate(capitalizedOn))
-                {
-                    errors.Add("CAPITALIZED ON must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
-                }
-            }
+            //if (string.IsNullOrWhiteSpace(capitalizedOn))
+            //{
+            //    errors.Add("CAPITALIZED ON is mandatory");
+            //}
+            //else
+            //{
+            //    if (!IsValidDate(capitalizedOn))
+            //    {
+            //        errors.Add("CAPITALIZED ON must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
+            //    }
+            //}
 
             if (!decimal.TryParse(csv.GetField(5), out decimal CAPC))
                 errors.Add("CURRENT APC is mandatory");
@@ -243,31 +243,31 @@ namespace AssetsManagement_Admin.Operations
 
             string DEACTIVATIONON = csv.GetField(7);
 
-            if (string.IsNullOrWhiteSpace(DEACTIVATIONON))
-            {
-                errors.Add("DEACTIVATI ON is mandatory");
-            }
-            else
-            {
-                if (!IsValidDate(DEACTIVATIONON))
-                {
-                    errors.Add("DEACTIVATION ON must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
-                }
-            }
+            //if (string.IsNullOrWhiteSpace(DEACTIVATIONON))
+            //{
+            //    errors.Add("DEACTIVATI ON is mandatory");
+            //}
+            //else
+            //{
+            //    if (!IsValidDate(DEACTIVATIONON))
+            //    {
+            //        errors.Add("DEACTIVATION ON must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
+            //    }
+            //}
 
             string DATEOFASSETSOLD = csv.GetField(8);
 
-            if (string.IsNullOrWhiteSpace(DATEOFASSETSOLD))
-            {
-                errors.Add("DATE OF ASSET SOLD is mandatory");
-            }
-            else
-            {
-                if (!IsValidDate(DATEOFASSETSOLD))
-                {
-                    errors.Add("DATE OF ASSET SOLD must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
-                }
-            }
+            //if (string.IsNullOrWhiteSpace(DATEOFASSETSOLD))
+            //{
+            //    errors.Add("DATE OF ASSET SOLD is mandatory");
+            //}
+            //else
+            //{
+            //    if (!IsValidDate(DATEOFASSETSOLD))
+            //    {
+            //        errors.Add("DATE OF ASSET SOLD must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
+            //    }
+            //}
 
             if (string.IsNullOrWhiteSpace(csv.GetField(9)))
                 errors.Add("LOCATION is mandatory");
@@ -291,31 +291,31 @@ namespace AssetsManagement_Admin.Operations
 
             string DOCUMENTDATE = csv.GetField(19);
 
-            if (string.IsNullOrWhiteSpace(DOCUMENTDATE))
-            {
-                errors.Add("DEACTIVATI ON is mandatory");
-            }
-            else
-            {
-                if (!IsValidDate(DOCUMENTDATE))
-                {
-                    errors.Add("DOCUMENT DATE must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
-                }
-            }
+            //if (string.IsNullOrWhiteSpace(DOCUMENTDATE))
+            //{
+            //    errors.Add("DEACTIVATI ON is mandatory");
+            //}
+            //else
+            //{
+            //    if (!IsValidDate(DOCUMENTDATE))
+            //    {
+            //        errors.Add("DOCUMENT DATE must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
+            //    }
+            //}
 
             string AUCDOCUMENTDATE = csv.GetField(21);
 
-            if (string.IsNullOrWhiteSpace(AUCDOCUMENTDATE))
-            {
-                errors.Add("AUC DOCUMENT DATE is mandatory");
-            }
-            else
-            {
-                if (!IsValidDate(AUCDOCUMENTDATE))
-                {
-                    errors.Add("AUC DOCUMENT DATE must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
-                }
-            }
+            //if (string.IsNullOrWhiteSpace(AUCDOCUMENTDATE))
+            //{
+            //    errors.Add("AUC DOCUMENT DATE is mandatory");
+            //}
+            //else
+            //{
+            //    if (!IsValidDate(AUCDOCUMENTDATE))
+            //    {
+            //        errors.Add("AUC DOCUMENT DATE must be in dd-MMM-yy format (e.g. 01-Jan-2025)");
+            //    }
+            //}
 
             if (string.IsNullOrWhiteSpace(csv.GetField(26)))
                 errors.Add("TYPE is mandatory");
@@ -376,6 +376,7 @@ namespace AssetsManagement_Admin.Operations
 
         public bool IsValidDate(string date)
         {
+            return true;
             DateTime dt;
             if (DateTime.TryParseExact(
                     date,

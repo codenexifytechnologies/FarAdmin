@@ -9,13 +9,13 @@ namespace AssetsManagement_Admin.Areas.SuperAdmin.Data
     public class Company
     {
         public int CompanyId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the Name")]
         public string CompanyName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the Contact Person")]
         public string CompanyContactPerson { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the Contact Person Number")]
         public string CompanyContactNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the Contact Person Email")]
         public string CompanyContactEmail { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool isActive { get; set; }

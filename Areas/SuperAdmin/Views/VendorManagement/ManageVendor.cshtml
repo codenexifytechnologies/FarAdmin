@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cancelButtonText: "Cancel"
         }).then((result) => {
             if (result.isConfirmed) {
+                showLoader();
                 window.location.href = url;
             }
         });
